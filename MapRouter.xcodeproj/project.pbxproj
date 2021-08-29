@@ -13,6 +13,7 @@
 		027EE54926DB90360088C475 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 027EE54726DB90360088C475 /* Main.storyboard */; };
 		027EE54B26DB90370088C475 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 027EE54A26DB90370088C475 /* Assets.xcassets */; };
 		027EE54E26DB90370088C475 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 027EE54C26DB90370088C475 /* LaunchScreen.storyboard */; };
+		027EE55626DB94150088C475 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027EE55526DB94150088C475 /* Alert.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		027EE54A26DB90370088C475 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		027EE54D26DB90370088C475 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		027EE54F26DB90370088C475 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		027EE55526DB94150088C475 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				027EE54126DB90360088C475 /* AppDelegate.swift */,
 				027EE54326DB90360088C475 /* SceneDelegate.swift */,
 				027EE54526DB90360088C475 /* ViewController.swift */,
+				027EE55526DB94150088C475 /* Alert.swift */,
 				027EE54726DB90360088C475 /* Main.storyboard */,
 				027EE54A26DB90370088C475 /* Assets.xcassets */,
 				027EE54C26DB90370088C475 /* LaunchScreen.storyboard */,
@@ -139,6 +142,7 @@
 			files = (
 				027EE54626DB90360088C475 /* ViewController.swift in Sources */,
 				027EE54226DB90360088C475 /* AppDelegate.swift in Sources */,
+				027EE55626DB94150088C475 /* Alert.swift in Sources */,
 				027EE54426DB90360088C475 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -289,6 +293,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SAY4Y2DWXX;
 				INFOPLIST_FILE = MapRouter/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -296,7 +301,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.tengizov.MapRouter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -308,6 +313,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SAY4Y2DWXX;
 				INFOPLIST_FILE = MapRouter/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -315,7 +321,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.tengizov.MapRouter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
