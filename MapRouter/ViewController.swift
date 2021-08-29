@@ -48,6 +48,8 @@ class ViewController: UIViewController {
         return button
     }()
     
+    private var annotationsArray = [MKPointAnnotation]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setConstraints()
@@ -55,21 +57,92 @@ class ViewController: UIViewController {
         addAdress.addTarget(self, action: #selector(addAdressTapped), for: .touchUpInside)
         routerButton.addTarget(self, action: #selector(routerButtonTapped), for: .touchUpInside)
         resetButton.addTarget(self, action: #selector(resetButtonTapped), for: .touchUpInside)
+        
+        mapView.delegate = self
 
     }
     
     @objc func addAdressTapped() {
-        alertAddAdress(title: "Add", placeholder: "") { textfieldText in
-            //
+        alertAddAdress(title: "Add", placeholder: "") { [self] textfieldText in
+            setupPlacemark(addressPlace: textfieldText)
         }
     }
     
     @objc func routerButtonTapped() {
         
+        for index in 0...annotationsArray.count - 2 {
+            
+            createDirectionRequest(startCoordinate: annotationsArray[index].coordinate, destination: annotationsArray[index + 1].coordinate)
+        }
+        
     }
     
     @objc func resetButtonTapped() {
+        mapView.removeOverlays(mapView.overlays)
+        mapView.removeAnnotations(mapView.annotations)
+        annotationsArray = [MKPointAnnotation]()
+        routerButton.isHidden = true
+        resetButton.isHidden = true 
+    }
+    
+    private func setupPlacemark(addressPlace: String) {
         
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(addressPlace) { [self] placemarks, error in
+            if let error = error {
+                print(error.localizedDescription)
+                alertError(title: "ERROR", message: "WE CANT FIND YOUR PLACE")
+                return
+            }
+            
+            guard let placemarks = placemarks else { return }
+            let placemark = placemarks.first
+            
+            let annotation = MKPointAnnotation()
+            annotation.title = addressPlace
+            
+            guard let placemarkLocation = placemark?.location else { return }
+            
+            annotation.coordinate = placemarkLocation.coordinate
+            
+            annotationsArray.append(annotation)
+            
+            if annotationsArray.count > 2 {
+                routerButton.isHidden = false
+                resetButton.isHidden = false
+            }
+                        
+            mapView.showAnnotations(annotationsArray, animated: true)
+        }
+    }
+    
+    private func createDirectionRequest(startCoordinate: CLLocationCoordinate2D, destination: CLLocationCoordinate2D) {
+        let startLocation = MKPlacemark(coordinate: startCoordinate)
+        let destionationLocation = MKPlacemark(coordinate: destination)
+        
+        let request = MKDirections.Request()
+        request.source = MKMapItem(placemark: startLocation)
+        request.destination = MKMapItem(placemark: destionationLocation)
+        request.transportType = .walking
+        request.requestsAlternateRoutes = true
+        
+        let direction = MKDirections(request: request)
+        direction.calculate { response, error in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            guard let response = response else { return }
+            
+            var minRoute = response.routes[0]
+            
+            for route in response.routes {
+                minRoute = route.distance < minRoute.distance ? route : minRoute
+            }
+            
+            self.mapView.addOverlay(minRoute.polyline)
+        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -79,6 +152,14 @@ class ViewController: UIViewController {
 
 }
 
+extension ViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay as! MKPolyline)
+        renderer.strokeColor = .red
+        return renderer
+    }
+}
 
 extension ViewController {
     
